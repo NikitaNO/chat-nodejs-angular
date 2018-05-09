@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+.form-box[_ngcontent-c0] {
+    width: 346px !important;
+    height: 274px !important;
+}
+
+.customClass .img-ul-clear {
+    display: none !important;
+}
+
+.customClass .img-ul-file-upload{
+    padding: 0 8px !important;
+}
+
+.customClass .img-ul-upload {
+    background-color: #61b548 !important;
+    font-size: 12px !important;
+
+}
+
+.customClass .img-ul-drag-box-msg {
+    display: none !important;
+}
+
+.customClass .img-ul-container {
+    background-color: #FF6CAD !important;
+}
