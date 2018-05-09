@@ -11,6 +11,6 @@
 ### Understanding the setup
 
 TODO
--[1].do better styles
--[2]. separate into the components frontend
--[3]. update dialogs view with popup
+-[].do better styles
+-[]. separate into the components frontend
+-[]. update dialogs view with popup
