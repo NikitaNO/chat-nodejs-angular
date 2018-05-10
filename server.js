@@ -78,36 +78,55 @@ io.on('connection', (socket) => {
         .then((users) => {
             usersCollection = users;
             socket.on('join', (username) => {
-                userCtrl.createUser(username, socket.id)
-                    .then((newUser) => {
-                        if (newUser.new) {
-                            usersCollection.push({
-                                id: newUser.user._id, // Assigning the socket ID as the user ID in this example
-                                displayName: username.username,
-                                status: 0, // ng-chat UserStatus.Online,
-                                avatar: null,
-                                _id: newUser.user._id,
-                                socketId: socket.id,
-                                interest: newUser.user.interest
-                            });
-                            socket.emit("generatedUserId", newUser.user._id);
-                            socket.emit("friendsListChanged", usersCollection);
-                            socket.broadcast.emit("friendsListChanged", usersCollection);
-                        }
-                        else {
+                if(username.userId){
+                    userCtrl.findOne(userId)
+                        .then(loginUser => {
                             usersCollection.forEach(function (one, i, all) {
-                                if (one.displayName == username.username) {
+                                if (one.displayName == loginUser.username) {
                                     usersCollection[i].id = newUser.user._id;
                                     usersCollection[i].socketId = socket.id;
                                     usersCollection[i].status = 0;
                                 }
                             });
 
-                            socket.emit("generatedUserId", newUser.user._id);
+                            socket.emit("generatedUserId", loginUser.user._id);
                             socket.emit("friendsListChanged", usersCollection);
                             socket.broadcast.emit("friendsListChanged", usersCollection);
-                        }
-                    })
+                        })
+                }
+                else{
+                    userCtrl.createUser(username, socket.id)
+                        .then((newUser) => {
+                            if (newUser.new) {
+                                usersCollection.push({
+                                    id: newUser.user._id, // Assigning the socket ID as the user ID in this example
+                                    displayName: username.username,
+                                    status: 0, // ng-chat UserStatus.Online,
+                                    avatar: null,
+                                    _id: newUser.user._id,
+                                    socketId: socket.id,
+                                    interest: newUser.user.interest
+                                });
+                                socket.emit("newUser", newUser.user._id);
+                                socket.emit("friendsListChanged", usersCollection);
+                                socket.broadcast.emit("friendsListChanged", usersCollection);
+                            }
+                            else {
+                                usersCollection.forEach(function (one, i, all) {
+                                    if (one.displayName == username.username) {
+                                        usersCollection[i].id = newUser.user._id;
+                                        usersCollection[i].socketId = socket.id;
+                                        usersCollection[i].status = 0;
+                                    }
+                                });
+
+                                socket.emit("newUser", newUser.user._id);
+                                socket.emit("friendsListChanged", usersCollection);
+                                socket.broadcast.emit("friendsListChanged", usersCollection);
+                            }
+                        })
+                }
+
                 socket.on('disconnect', () => {
                     userCtrl.updateUserInfo(socket.id)
                         .then((userOffline) => {
