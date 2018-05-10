@@ -1,0 +1,18 @@
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <div class="col">
+      <div class="list-wrapper float-right mt-4">
+        <label>Friends:</label>
+        <div class="list-group">
+          <button type="button" class="list-group-item list-group-item-action" *ngFor="let friend of friends" (click)="openChat(friend)">
+            {{friend.displayName}} - {{friend.interest}}
+            <span class="status" [style.background-color]="friend.status === 0 && '#00b300'"></span>
+          </button>
+        </div>
+      </div>
+      <div class="chats-wrapper position-absolute">
+        <app-popup *ngFor="let chat of openedChats" [userFrom]="userId" [userTo]="userTo" class="mr-2"></app-popup>
+      </div>
+    </div>
+  </div>
+</div>

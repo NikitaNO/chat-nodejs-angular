@@ -1,0 +1,17 @@
+.list-wrapper {
+  width: 300px;
+}
+
+.status {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: #CCC;
+  display: block;
+  float: right;
+  margin-top: 6px;
+}
+
+.chats-wrapper {
+  bottom: 0;
+}
