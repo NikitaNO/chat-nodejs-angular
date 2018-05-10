@@ -1,130 +1,115 @@
-import {Component} from '@angular/core';
-import {ChatAdapter, User} from 'ng-chat';
-import {SocketIOAdapter} from './socketio-adapter'
-import {Socket} from 'ng-socket-io';
-import {Http} from '@angular/http';
+import { Socket } from 'ng-socket-io';
+import { Component, OnInit } from '@angular/core';
+
+// tslint:disable-next-line
+type User = { username: string, interest: string };
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-    title = 'app';
-    userId: string;
-    username: string;
-    interest: string;
-    onFriendsListChanged: any;
-    dialog: boolean = false;
-    msg: string;
-    selectedUser: any;
-    onMessageReceived: any = [];
-    popups: any = [];
-    typingUser: String;
-    API: string = 'http://localhost:3000/';
+export class AppComponent implements OnInit {
 
-    //arrays of popups ids
+  userId: string;
+  friends: any[];
 
+  dialog = false;
+  msg: string;
+  selectedUser: any;
+  onMessageReceived: any = [];
+  openedChats: any[] = [];
+  typingUser: String;
 
-    public adapter: ChatAdapter;
+  constructor(private _socket: Socket) { }
 
+  ngOnInit(): void {
+    this.userId = window.localStorage.userId;
 
-    constructor(private socket: Socket, private http: Http) {
-        this.InitializeSocketListerners();
-        if (window.localStorage.userId) {
-            this.username = window.localStorage.username;
-            this.joinRoom();
-        }
-
-        this.socket.on("friendsListChanged", (usersCollection: Array<User>) => {
-            this.onFriendsListChanged = usersCollection.filter(x => x.id != this.userId);
-        });
-        this.socket.on("messageReceived", (messageWrapper) => {
-            let self = this;
-            messageWrapper.forEach(function (elem, i, all) {
-                if (elem.message.indexOf('.base64') != -1 || elem.message.indexOf('.jpg') != -1 || elem.message.indexOf('.png') != -1 || elem.message.indexOf('.jpeg') != -1) {
-                    elem.type = 'img';
-                }
-                if (i == messageWrapper.length - 1) {
-                    self.onMessageReceived = messageWrapper;
-                }
-            })
-
-        });
-        this.socket.on("userWriteMsg", (write) => {
-            this.typingUser = write.displayName;
-            setTimeout(() => {
-                this.typingUser = null;
-            }, 2000)
-        });
-
+    if (this.userId) {
+      this._socket.emit('join', { userId: this.userId });
     }
 
-    public joinRoom(): void {
-        let user = {
-            username: this.username,
-            interest: this.interest
-        };
-        this.socket.emit("join", user);
-    }
+    this._socket.on('friendsListChanged', (friends: any[]) => {
+      this.friends = friends.filter(friend => friend.id !== this.userId);
+    });
 
-    public InitializeSocketListerners(): void {
-        this.socket.on("generatedUserId", (userId) => {
-            this.adapter = new SocketIOAdapter(userId, this.socket, this.http);
-            this.userId = userId;
-            window.localStorage.userId = userId;
-            window.localStorage.username = this.username;
-        });
-    }
+    this._socket.on('writing', (write) => {
+      console.log(write);
+      this.typingUser = write.displayName;
+      setTimeout(() => {
+        this.typingUser = null;
+      }, 2000);
+    });
+  }
 
-    public selectUser(user): void {
-        this.popups.push(user)
-        // this.dialog = true;
-        // this.selectedUser = user;
-        // this.onMessageReceived = [];
-        // let chat = {
-        //     fromId: this.userId,
-        //     toId: this.selectedUser.id
-        // };
-        // this.socket.emit("getChats", chat);
-    }
+  newUserHandler = (userId): void => {
+    this.userId = userId;
 
-    onUploadFinished(file: any) {
-        this.msg = file.file.name;
-        this.send();
-    }
+    window.localStorage.userId = userId;
 
-    public writeMsg(msg): void {
-        console.log(msg);
-        let message = {
-            message: this.msg,
-            fromId: this.userId,
-            toId: this.selectedUser.id
-        };
-        this.socket.emit("writeMessage", message)
-    }
+    this._socket.removeListener('newUser', this.newUserHandler);
+  }
 
-    public send(): void {
-        let message = {
-            message: this.msg,
-            fromId: this.userId,
-            toId: this.selectedUser.id
-        };
-        this.socket.emit("sendMessage", message);
-        this.msg = null;
-    }
+  joinRoom(value: User): void {
+    this._socket.on('newUser', this.newUserHandler);
 
-    public sendSmile(smile): void {
-        let message = {
-            message: smile,
-            fromId: this.userId,
-            toId: this.selectedUser.id
-        };
-        this.socket.emit("sendMessage", message);
-        this.msg = null;
-    }
+    const { username, interest } = value;
 
-    // public addPopup(id, name): void {
-    //
-    // }
+    window.localStorage.username = username;
+    window.localStorage.interest = interest;
+
+    this._socket.emit('join', value);
+  }
+
+  public selectUser(user): void {
+    this.openedChats.push(user);
+    // this.dialog = true;
+    // this.selectedUser = user;
+    // this.onMessageReceived = [];
+    // let chat = {
+    //     fromId: this.userId,
+    //     toId: this.selectedUser.id
+    // };
+    // this._socket.emit("getChats", chat);
+  }
+
+  onUploadFinished(file: any) {
+    this.msg = file.file.name;
+    this.send();
+  }
+
+  public writeMsg(msg): void {
+    console.log(msg);
+    const message = {
+      message: this.msg,
+      fromId: this.userId,
+      toId: this.selectedUser.id
+    };
+    this._socket.emit('writeMessage', message)
+  }
+
+  public send(): void {
+    const message = {
+      message: this.msg,
+      fromId: this.userId,
+      toId: this.selectedUser.id
+    };
+    this._socket.emit('sendMessage', message);
+    this.msg = null;
+  }
+
+  public sendSmile(smile): void {
+    const message = {
+      message: smile,
+      fromId: this.userId,
+      toId: this.selectedUser.id
+    };
+    this._socket.emit('sendMessage', message);
+    this.msg = null;
+  }
+
+  // public addPopup(id, name): void {
+  //
+  // }
 }

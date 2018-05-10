@@ -1,7 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
+html, body {
+  height: 100%;
+}
+/* body {
+    overflow: hidden;
+} */
 
-.form-box[_ngcontent-c0] {
+/* .form-box[_ngcontent-c0] {
     width: 346px !important;
     height: 274px !important;
 }
@@ -26,4 +32,4 @@
 
 .customClass .img-ul-container {
     background-color: #FF6CAD !important;
-}
+} */
