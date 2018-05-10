@@ -82,14 +82,14 @@ io.on('connection', (socket) => {
                     userCtrl.findOne(userId)
                         .then(loginUser => {
                             usersCollection.forEach(function (one, i, all) {
-                                if (one.displayName == loginUser.username) {
-                                    usersCollection[i].id = newUser.user._id;
+                                if (one.displayName == loginUser.displayName) {
+                                    usersCollection[i].id = loginUser._id;
                                     usersCollection[i].socketId = socket.id;
                                     usersCollection[i].status = 0;
                                 }
                             });
 
-                            socket.emit("generatedUserId", loginUser.user._id);
+                            socket.emit("generatedUserId", loginUser._id);
                             socket.emit("friendsListChanged", usersCollection);
                             socket.broadcast.emit("friendsListChanged", usersCollection);
                         })
