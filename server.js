@@ -157,7 +157,7 @@ io.on('connection', (socket) => {
           })
       });
   });
-  socket.on("writeMessage", (message) => {
+  socket.on("writing", (message) => {
     userCtrl.find(message)
       .then((users) => {
         io.to(users[1][0].socketId).emit('writing', users[0][0]);
@@ -165,13 +165,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on("getChats", (message) => {
-      console.log("message");
       userCtrl.find(message)
       .then((users) => {
-        msgCtrl.getUserMsg(message)
+          msgCtrl.getUserMsg(message)
           .then((chats) => {
-            io.to(users[0][0].socketId).emit("messageReceived", chats);
-            io.to(users[1][0].socketId).emit("messageReceived", chats);
+              io.to(users[0][0].socketId).emit("messageReceived", chats);
+            // io.to(users[1][0].socketId).emit("messageReceived", chats);
           })
       });
   });

@@ -19,19 +19,18 @@ export class PopupComponent implements OnInit {
   @Input() userFrom: string;
 
   constructor(private socket: Socket) {
-    this.socket.on('messageReceived', (messageWrapper) => {
-        console.log(messageWrapper);
-        let self = this;
-      messageWrapper.forEach(function(elem, i, all) {
-        if (elem.message.indexOf('.base64') != -1 || elem.message.indexOf('.jpg') != -1 || elem.message.indexOf('.png') != -1 || elem.message.indexOf('.jpeg') != -1) {
-          elem.type = 'img';
-        }
-        if (i == messageWrapper.length - 1) {
-          self.onMessageReceived = messageWrapper;
-        }
-      })
+      this.socket.on('messageReceived', (messageWrapper) => {
+          console.log(messageWrapper);
+          messageWrapper.forEach((elem, i, all) => {
+              if (elem.message.indexOf('.base64') != -1 || elem.message.indexOf('.jpg') != -1 || elem.message.indexOf('.png') != -1 || elem.message.indexOf('.jpeg') != -1) {
+                  elem.type = 'img';
+              }
+              if (i == messageWrapper.length - 1) {
+                  this.onMessageReceived = messageWrapper;
+              }
+          })
 
-    });
+      });
   }
 
   ngOnInit() {
@@ -40,8 +39,10 @@ export class PopupComponent implements OnInit {
       toId: this.userTo
     };
     this.socket.emit("getChats", chat);
-    console.log(this.userTo);
-    console.log(this.userFrom);
+    console.log("userTo", this.userTo);
+    console.log("userFrom", this.userFrom);
+
+
   }
 
 }

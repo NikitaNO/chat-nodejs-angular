@@ -10,7 +10,7 @@ export class FriendsListComponent implements OnInit {
   public openedChats: any[] = [];
 
   @Input() friends: any[] = [];
-  @Input() userFrom;
+  @Input() userFrom: string;
   userTo: string;
 
   constructor() { }
@@ -18,7 +18,7 @@ export class FriendsListComponent implements OnInit {
   ngOnInit() { }
 
   openChat(friend: any): void {
-    this.openedChats.push(friend);
+      this.openedChats.push(friend);
     this.userTo = friend.id;
   }
 

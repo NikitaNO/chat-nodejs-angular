@@ -6,4 +6,22 @@
       <img style="max-width: 300px;" src="asdfasdf{{msg.message}}">
     </div>
   </div>
+  <div class="input-group row col-md-12">
+    <div class="col-md-7">
+      <input type="text" class="form-control" id="msg" required [(ngModel)]="msg" name="msg" name="ngModel" (input)="writeMsg($event.target.value)">
+    </div>
+    <div class="col-md-2">
+      <image-upload [preview]="false" [class]="'customClass'" buttonCaption="Upload" [extensions]="['jpeg','png']" (uploadFinished)="onUploadFinished($event)" url="http://localhost:3000/upload"></image-upload>
+    </div>
+    <div class="col-md-2">
+      <!--<img class="smiles" (click)="sendSmile('smile.png')" src="/smile.png">-->
+      <!--<img class="smiles" (click)="sendSmile('glad.png')" src="/glad.png">-->
+      <!--<img class="smiles" (click)="sendSmile('smile2.png')" src={{API}}smile2.png>-->
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-success" type="button" (click)="send()">
+        Send
+      </button>
+    </div>
+  </div>
 </div>

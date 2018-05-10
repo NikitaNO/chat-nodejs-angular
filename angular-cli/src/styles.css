@@ -11,7 +11,7 @@ html, body {
     width: 346px !important;
     height: 274px !important;
 }
-
+*/
 .customClass .img-ul-clear {
     display: none !important;
 }
@@ -22,7 +22,7 @@ html, body {
 
 .customClass .img-ul-upload {
     background-color: #61b548 !important;
-    font-size: 12px !important;
+    font-size: 6px !important;
 
 }
 
@@ -32,4 +32,4 @@ html, body {
 
 .customClass .img-ul-container {
     background-color: #FF6CAD !important;
-} */
+}
