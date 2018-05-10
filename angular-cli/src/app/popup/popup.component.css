@@ -1,0 +1,86 @@
+.signin-container {
+  background-color: #fff;
+  width: 400px;
+  height: 520px;
+  position: absolute;
+  left: 20%;
+  top: 15%;
+  border-radius: 2px;
+  box-shadow: 4px 4px 10px 2px rgba(0, 0, 0, 0.5);
+  padding: 32px;
+  box-sizing: border-box;
+
+}
+
+.signin-container  .style-button-color {
+  background-color: #0099ff;
+}
+
+.signin-container  .header {
+  color: #444444;
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: 2px;
+}
+
+.signin-container .error {
+  color: red;
+  font-weight: 500;
+  text-align: center;
+}
+
+
+.signin-container a {
+  width: 100%;
+  margin: 8px 0;
+  font-size: 17px;
+  height: 45px;
+  display: flex;
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+}
+
+.divider {
+  border-bottom: 1px solid #dadada;
+  margin: 16px 0;
+  position: relative;
+}
+
+.divider  .hint {
+  position: absolute;
+  bottom: -8px;
+  left: 45%;
+  background: #fff;
+  padding: 0 12px;
+  color: #989898;
+}
+
+.form-container {
+  padding: 16px 0;
+}
+
+.form-container .form-control {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.form-container .submit-section {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 32px;
+  box-sizing: border-box;
+  margin-top: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-container .submit-section a {
+  color: #0099ff;
+  text-decoration: none;
+}
+

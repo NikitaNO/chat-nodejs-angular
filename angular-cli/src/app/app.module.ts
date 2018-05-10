@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import {PopupComponent} from './popup/popup.component'
 
 import { NgChatModule } from 'ng-chat';
 
@@ -19,7 +20,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
   declarations: [
     AppComponent,
       FileDropDirective,
-      FileSelectDirective
+      FileSelectDirective,
+      PopupComponent
   ],
   imports: [
     BrowserModule,

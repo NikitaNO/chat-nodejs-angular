@@ -26,6 +26,62 @@
 </div>
 
 <div *ngIf="userId">
+    <!--<div class="row">-->
+        <!--<div class="col-md-3 col-md-push-9">-->
+            <!--<h3 class="text-center">Users</h3>-->
+            <!--<div *ngFor="let user of onFriendsListChanged">-->
+                <!--<div (click)="selectUser(user)" class="user-list">-->
+                    <!--<div class="row" style="height: 30px">-->
+                        <!--<div class="col-md-9"  style="height: 30px">-->
+                            <!--<b>{{user.displayName}}</b>-->
+                            <!--<span *ngIf="user.displayName === typingUser">-->
+                            <!--<i>{{user.displayName}} is typing...</i>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-3" style="height: 30px" >-->
+                            <!--<span *ngIf="user.status === 0" style="color: green;">online</span>-->
+                            <!--<span *ngIf="user.status === 1" style="color: red;">offline</span>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+                    <!--{{user.interest}}-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="col-md-9 col-md-pull-3 messages-content" *ngIf="dialog" style="background-color: #FFFFFF">-->
+
+            <!--<div class="col-md-12" *ngFor="let msg of onMessageReceived">-->
+                <!--<b>{{msg.author.displayName}}</b>:-->
+                <!--<div *ngIf="msg.type != 'img'"> {{msg.message}}</div>-->
+                <!--<div *ngIf="msg.type == 'img'"><img style="max-width: 300px;" src="{{API}}{{msg.message}}"></div>-->
+            <!--</div>-->
+            <!--<div class="input-group row col-md-12">-->
+                <!--<div class="col-md-7">-->
+                    <!--<input type="text" class="form-control" id="msg"-->
+                           <!--required-->
+                           <!--[(ngModel)]="msg" name="msg"-->
+                           <!--#name="ngModel" (input)="writeMsg($event.target.value)">-->
+                <!--</div>-->
+                <!--<div class="col-md-2">-->
+                    <!--<image-upload [preview]="false" [class]="'customClass'" buttonCaption="Upload file" [extensions]="['jpeg','png']" (uploadFinished)="onUploadFinished($event)" url="http://localhost:3000/upload"></image-upload>-->
+                <!--</div>-->
+                <!--<div class="col-md-2">-->
+                        <!--<img class="smiles" (click)="sendSmile('smile.png')" src="{{API}}smile.png">-->
+                        <!--<img class="smiles" (click)="sendSmile('glad.png')" src={{API}}glad.png>-->
+                        <!--<img class="smiles" (click)="sendSmile('smile2.png')" src={{API}}smile2.png>-->
+                <!--</div>-->
+                <!--<div class="col-md-1">-->
+                    <!--<button class="btn btn-success" type="button" (click)="send()">-->
+                        <!--Send-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+
+
     <div class="row">
         <div class="col-md-3 col-md-push-9">
             <h3 class="text-center">Users</h3>
@@ -49,41 +105,54 @@
             </div>
         </div>
 
-        <div class="col-md-9 col-md-pull-3 messages-content" *ngIf="dialog" style="background-color: #FFFFFF">
+        <!--<div class="col-md-9 col-md-pull-3 messages-content" *ngIf="dialog" style="background-color: #FFFFFF">-->
 
-            <div class="col-md-12" *ngFor="let msg of onMessageReceived">
-                <b>{{msg.author.displayName}}</b>:
-                <div *ngIf="msg.type != 'img'"> {{msg.message}}</div>
-                <div *ngIf="msg.type == 'img'"><img style="max-width: 300px;" src="{{API}}{{msg.message}}"></div>
-            </div>
-            <div class="input-group row col-md-12">
-                <div class="col-md-7">
-                    <input type="text" class="form-control" id="msg"
-                           required
-                           [(ngModel)]="msg" name="msg"
-                           #name="ngModel" (input)="writeMsg($event.target.value)">
-                </div>
-                <div class="col-md-2">
-                    <image-upload [preview]="false" [class]="'customClass'" buttonCaption="Upload file" [extensions]="['jpeg','png']" (uploadFinished)="onUploadFinished($event)" url="http://localhost:3000/upload"></image-upload>
-                </div>
-                <div class="col-md-2">
-                    <!--<span *ngFor="let smile of emoji">-->
-                        <img class="smiles" (click)="sendSmile('smile.png')" src="{{API}}smile.png">
-                        <img class="smiles" (click)="sendSmile('glad.png')" src={{API}}glad.png>
-                        <img class="smiles" (click)="sendSmile('smile2.png')" src={{API}}smile2.png>
-                    <!--</span>-->
+            <!--<div class="col-md-12" *ngFor="let msg of onMessageReceived">-->
+                <!--<b>{{msg.author.displayName}}</b>:-->
+                <!--<div *ngIf="msg.type != 'img'"> {{msg.message}}</div>-->
+                <!--<div *ngIf="msg.type == 'img'"><img style="max-width: 300px;" src="{{API}}{{msg.message}}"></div>-->
+            <!--</div>-->
+            <!--<div class="input-group row col-md-12">-->
+                <!--<div class="col-md-7">-->
+                    <!--<input type="text" class="form-control" id="msg"-->
+                           <!--required-->
+                           <!--[(ngModel)]="msg" name="msg"-->
+                           <!--#name="ngModel" (input)="writeMsg($event.target.value)">-->
+                <!--</div>-->
+                <!--<div class="col-md-2">-->
+                    <!--<image-upload [preview]="false" [class]="'customClass'" buttonCaption="Upload file" [extensions]="['jpeg','png']" (uploadFinished)="onUploadFinished($event)" url="http://localhost:3000/upload"></image-upload>-->
+                <!--</div>-->
+                <!--<div class="col-md-2">-->
+                    <!--<img class="smiles" (click)="sendSmile('smile.png')" src="{{API}}smile.png">-->
+                    <!--<img class="smiles" (click)="sendSmile('glad.png')" src={{API}}glad.png>-->
+                    <!--<img class="smiles" (click)="sendSmile('smile2.png')" src={{API}}smile2.png>-->
+                <!--</div>-->
+                <!--<div class="col-md-1">-->
+                    <!--<button class="btn btn-success" type="button" (click)="send()">-->
+                        <!--Send-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
 
-                </div>
-                <div class="col-md-1">
-                    <button class="btn btn-success" type="button" (click)="send()">
-                        Send
-                    </button>
-                </div>
-            </div>
+        <div *ngFor="let popup of popups">
+            <app-popup [userFrom]="userId" [userTo]="popup.id"></app-popup>
         </div>
 
     </div>
 
+
+
+    <!--<div class="chat-sidebar">-->
+        <!--<div class="sidebar-name" *ngFor="let user of onFriendsListChanged">-->
+            <!--&lt;!&ndash; Pass username and display name to register popup &ndash;&gt;-->
+            <!--<a (click)="register_popup('narayan-prusty', 'Narayan Prusty')">-->
+                <!--<img width="30" height="30" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p50x50/1510656_10203002897620130_521137935_n.jpg?oh=572eaca929315b26c58852d24bb73310&oe=54BEE7DA&__gda__=1418131725_c7fb34dd0f499751e94e77b1dd067f4c" />-->
+                <!--<span>Narayan Prusty</span>-->
+            <!--</a>-->
+        <!--</div>-->
+
+    <!--</div>-->
 </div>
 

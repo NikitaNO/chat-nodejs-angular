@@ -1,0 +1,7 @@
+<div style=" border: 1px solid #000; width: 200px">
+  <div *ngFor="let msg of onMessageReceived">
+  <b>{{msg.author.displayName}}</b>:
+  <div *ngIf="msg.type != 'img'"> {{msg.message}}</div>
+  <div *ngIf="msg.type == 'img'"><img style="max-width: 300px;" src="{{API}}{{msg.message}}"></div>
+  </div>
+</div>
