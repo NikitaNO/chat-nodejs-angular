@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     window.localStorage.userId = userId;
 
     this._socket.removeListener('newUser', this.newUserHandler);
-  }
+  };
 
   joinRoom(value: User): void {
     this._socket.on('newUser', this.newUserHandler);
@@ -62,33 +62,6 @@ export class AppComponent implements OnInit {
     this._socket.emit('join', value);
   }
 
-  public selectUser(user): void {
-    this.openedChats.push(user);
-    // this.dialog = true;
-    // this.selectedUser = user;
-    // this.onMessageReceived = [];
-    // let chat = {
-    //     fromId: this.userId,
-    //     toId: this.selectedUser.id
-    // };
-    // this._socket.emit("getChats", chat);
-  }
-
-  onUploadFinished(file: any) {
-    this.msg = file.file.name;
-    this.send();
-  }
-
-  public writeMsg(msg): void {
-    console.log(msg);
-    const message = {
-      message: this.msg,
-      fromId: this.userId,
-      toId: this.selectedUser.id
-    };
-    this._socket.emit('writeMessage', message)
-  }
-
   public send(): void {
     const message = {
       message: this.msg,
@@ -99,17 +72,5 @@ export class AppComponent implements OnInit {
     this.msg = null;
   }
 
-  public sendSmile(smile): void {
-    const message = {
-      message: smile,
-      fromId: this.userId,
-      toId: this.selectedUser.id
-    };
-    this._socket.emit('sendMessage', message);
-    this.msg = null;
-  }
 
-  // public addPopup(id, name): void {
-  //
-  // }
 }

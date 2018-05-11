@@ -52,6 +52,20 @@ exports.findOneAndConnect = (user, socketId) => {
     });
 };
 
+
+exports.updateUserInfo = (socketUser) => {
+
+    return new Promise((resolve, reject)=>{
+        User.findOneAndUpdate({socketId: socketUser}, {$set:{status: 1}})
+            .then(function(users)  {
+                resolve(true);
+            })
+            .catch(function(error){
+                reject("error");
+            });
+    });
+};
+
 exports.getAll = () => {
 
     return new Promise((resolve, reject)=>{

@@ -1,22 +1,30 @@
 <div>
+  <div class="title-popup">
+    {{userToName}}
+    <button type="button" class="close" (click)="closeDialog()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div *ngFor="let msg of onMessageReceived">
     <b>{{msg.author.displayName}}</b>:
     <div *ngIf="msg.type != 'img'"> {{msg.message}}</div>
     <div *ngIf="msg.type == 'img'">
-      <img style="max-width: 300px;" src="asdfasdf{{msg.message}}">
+      <img style="max-width: 50px;" src="{{apiUrl}}{{msg.message}}">
     </div>
   </div>
   <div class="input-group row col-md-12">
     <div class="col-md-7">
       <input type="text" class="form-control" id="msg" required [(ngModel)]="msg" name="msg" name="ngModel" (input)="writeMsg($event.target.value)">
     </div>
-    <div class="col-md-2">
-      <image-upload [preview]="false" [class]="'customClass'" buttonCaption="Upload" [extensions]="['jpeg','png']" (uploadFinished)="onUploadFinished($event)" url="http://localhost:3000/upload"></image-upload>
+  </div>
+  <div class="input-group row col-md-12 button-icon">
+    <div class="col-md-4">
+      <image-upload [preview]="false" [class]="'customClass'" buttonCaption="Upload" [extensions]="['jpeg','png']" (uploadFinished)="onUploadFinished($event)" url="{{apiUrl}}upload"></image-upload>
     </div>
-    <div class="col-md-2">
-      <!--<img class="smiles" (click)="sendSmile('smile.png')" src="/smile.png">-->
-      <!--<img class="smiles" (click)="sendSmile('glad.png')" src="/glad.png">-->
-      <!--<img class="smiles" (click)="sendSmile('smile2.png')" src={{API}}smile2.png>-->
+    <div class="col-md-5">
+      <img class="smiles" (click)="sendSmile('smile.png')" src="{{apiUrl}}smile.png">
+      <img class="smiles" (click)="sendSmile('glad.png')" src="{{apiUrl}}glad.png">
+      <img class="smiles" (click)="sendSmile('smile2.png')" src={{apiUrl}}smile2.png>
     </div>
     <div class="col-md-1">
       <button class="btn btn-success" type="button" (click)="send()">

@@ -160,7 +160,7 @@ io.on('connection', (socket) => {
   socket.on("writing", (message) => {
     userCtrl.find(message)
       .then((users) => {
-        io.to(users[1][0].socketId).emit('writing', users[0][0]);
+        io.to(users[1][0].socketId).emit('writingMsg', users[0][0]);
       });
   });
 

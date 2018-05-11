@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Socket } from 'ng-socket-io';
+import  { environment } from '../../environments/environment'
 
 @Component({
   selector: 'app-popup',
@@ -8,19 +9,17 @@ import { Socket } from 'ng-socket-io';
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent implements OnInit {
-
-  private form: any;
-  private error: string;
-  private loading = false;
-
   onMessageReceived: any = [];
+  msg: string;
+    apiUrl = environment.apiBaseUrl;
 
   @Input() userTo: string;
   @Input() userFrom: string;
+  @Input() userToName: string;
+  @Input() openedChats: any[];
 
   constructor(private socket: Socket) {
       this.socket.on('messageReceived', (messageWrapper) => {
-          console.log(messageWrapper);
           messageWrapper.forEach((elem, i, all) => {
               if (elem.message.indexOf('.base64') != -1 || elem.message.indexOf('.jpg') != -1 || elem.message.indexOf('.png') != -1 || elem.message.indexOf('.jpeg') != -1) {
                   elem.type = 'img';
@@ -29,7 +28,6 @@ export class PopupComponent implements OnInit {
                   this.onMessageReceived = messageWrapper;
               }
           })
-
       });
   }
 
@@ -39,10 +37,48 @@ export class PopupComponent implements OnInit {
       toId: this.userTo
     };
     this.socket.emit("getChats", chat);
-    console.log("userTo", this.userTo);
-    console.log("userFrom", this.userFrom);
-
-
   }
 
+    onUploadFinished(file: any) {
+        this.msg = file.file.name;
+        this.send();
+    }
+
+    public writeMsg(msg): void {
+        let message = {
+            message: this.msg,
+            fromId: this.userFrom,
+            toId: this.userTo
+        };
+        this.socket.emit("writing", message)
+    }
+
+    public send(): void {
+        let message = {
+            message: this.msg,
+            fromId: this.userFrom,
+            toId: this.userTo
+        };
+        this.socket.emit("sendMessage", message);
+        this.msg = null;
+    }
+
+
+    public closeDialog(): void {
+        for(let i=0; i<this.openedChats.length-1; i++){
+            if(this.openedChats[i].id === this.userTo){
+                this.openedChats.splice(i, 1);
+            }
+        }
+    }
+
+    public sendSmile(smile): void {
+        let message = {
+            message: smile,
+            fromId: this.userFrom,
+            toId: this.userTo
+        };
+        this.socket.emit("sendMessage", message);
+        this.msg = null;
+    }
 }
