@@ -15,8 +15,7 @@
                 </div>
             </div>
             <div class="chats-wrapper position-absolute">
-                <app-popup *ngFor="let chat of openedChats" [userFrom]="userFrom" [userTo]="userTo"
-                           [userToName]="userToName" [openedChats] = "openedChats" class="mr-2" style="overflow-y: scroll;"></app-popup>
+                <app-popup *ngFor="let chat of openedChats" [userFrom]="userFrom" [chat]="chat" [openedChats] = "openedChats" class="mr-2" style="overflow-y: scroll;"></app-popup>
             </div>
         </div>
     </div>

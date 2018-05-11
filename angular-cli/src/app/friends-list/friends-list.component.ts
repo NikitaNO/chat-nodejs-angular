@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {forEach} from "@angular/router/src/utils/collection";
 import { Socket } from 'ng-socket-io';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-friends-list',
@@ -31,21 +32,16 @@ export class FriendsListComponent implements OnInit {
 
   openChat(friend: any): void {
 
-    let userInclude = false;
-      console.log(this.openedChats);
-      for(let i=0; i < this.openedChats.length-1; i++){
-          if(this.openedChats[i].id === friend.id){
-            userInclude = true;
+    if (!_.find(this.openedChats, {id: friend.id})) {
+        if (this.openedChats.length === 3){
+            this.openedChats.shift();
         }
-      }
-      if(!userInclude){
-        if(this.openedChats.length === 3){
-          this.openedChats.shift();
-        }
-          this.openedChats.push(friend);
-          this.userTo = friend.id;
-          this.userToName = friend.displayName;
-      }
+
+        this.openedChats.push(friend);
+
+        this.userTo = friend.id;
+        this.userToName = friend.displayName;
+    }
   }
 
 }

@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     }
 
     this._socket.on('friendsListChanged', (friends: any[]) => {
-      this.friends = friends.filter(friend => friend.id !== this.userId);
+        this.friends = friends.filter(friend => friend.id !== this.userId);
     });
 
     this._socket.on('writing', (write) => {

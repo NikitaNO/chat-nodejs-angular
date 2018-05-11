@@ -17,9 +17,12 @@ export class PopupComponent implements OnInit {
   @Input() userFrom: string;
   @Input() userToName: string;
   @Input() openedChats: any[];
+  @Input() chat: any;
 
   constructor(private socket: Socket) {
       this.socket.on('messageReceived', (messageWrapper) => {
+          messageWrapper = messageWrapper.filter(elm => elm.toId === this.chat.id);
+
           messageWrapper.forEach((elem, i, all) => {
               if (elem.message.indexOf('.base64') != -1 || elem.message.indexOf('.jpg') != -1 || elem.message.indexOf('.png') != -1 || elem.message.indexOf('.jpeg') != -1) {
                   elem.type = 'img';
@@ -34,7 +37,7 @@ export class PopupComponent implements OnInit {
   ngOnInit() {
     let chat = {
       fromId: this.userFrom,
-      toId: this.userTo
+      toId: this.chat.id
     };
     this.socket.emit("getChats", chat);
   }
@@ -48,7 +51,7 @@ export class PopupComponent implements OnInit {
         let message = {
             message: this.msg,
             fromId: this.userFrom,
-            toId: this.userTo
+            toId: this.chat.id
         };
         this.socket.emit("writing", message)
     }
@@ -57,7 +60,7 @@ export class PopupComponent implements OnInit {
         let message = {
             message: this.msg,
             fromId: this.userFrom,
-            toId: this.userTo
+            toId: this.chat.id
         };
         this.socket.emit("sendMessage", message);
         this.msg = null;
@@ -65,8 +68,8 @@ export class PopupComponent implements OnInit {
 
 
     public closeDialog(): void {
-        for(let i=0; i<this.openedChats.length-1; i++){
-            if(this.openedChats[i].id === this.userTo){
+        for(let i=0; i<this.openedChats.length; i++){
+            if(this.openedChats[i].id === this.chat.id){
                 this.openedChats.splice(i, 1);
             }
         }
@@ -76,7 +79,7 @@ export class PopupComponent implements OnInit {
         let message = {
             message: smile,
             fromId: this.userFrom,
-            toId: this.userTo
+            toId: this.chat.id
         };
         this.socket.emit("sendMessage", message);
         this.msg = null;
