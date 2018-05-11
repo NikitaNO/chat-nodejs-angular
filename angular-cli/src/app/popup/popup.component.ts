@@ -40,6 +40,7 @@ export class PopupComponent implements OnInit {
       toId: this.chat.id
     };
     this.socket.emit("getChats", chat);
+
   }
 
     onUploadFinished(file: any) {

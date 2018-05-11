@@ -6,13 +6,16 @@
     </button>
   </div>
   <div  style="padding-top: 25px">
-    <div *ngFor="let msg of onMessageReceived">
-      <b>{{msg.author.displayName}}</b>:
-      <div *ngIf="msg.type != 'img'"> {{msg.message}}</div>
-      <div *ngIf="msg.type == 'img'">
-        <img style="max-width: 50px;" src="{{apiUrl}}{{msg.message}}">
+    <div>
+      <div *ngFor="let msg of onMessageReceived">
+        <b>{{msg.author.displayName}}</b>:
+        <div *ngIf="msg.type != 'img'"> {{msg.message}}</div>
+        <div *ngIf="msg.type == 'img'">
+          <img style="max-width: 50px;" src="{{apiUrl}}{{msg.message}}">
+        </div>
       </div>
     </div>
+
     <div>
       <div class="col-md-12">
         <input type="text" class="form-control" id="msg" required [(ngModel)]="msg" name="msg" name="ngModel" (input)="writeMsg($event.target.value)">
