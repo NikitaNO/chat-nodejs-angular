@@ -33,12 +33,18 @@ exports.createUser = (user, socketId) => {
     });
 };
 
-exports.updateUserInfo = (socketUser) => {
+exports.findOneAndConnect = (user, socketId) => {
 
     return new Promise((resolve, reject)=>{
-        User.findOneAndUpdate({socketId: socketUser}, {$set:{status: 1}})
-            .then(function(users)  {
-                resolve(true);
+        User.findOneAndUpdate({id: user}, {$set:{status: 0,  socketId: socketId}}, {returnNewDocument: true} )
+            .then(function(updateUser)  {
+                User.findById(updateUser._id)
+                    .then(function(loginUser)  {
+                        resolve(user);
+                    })
+                    .catch(function(error){
+                        reject(error);
+                    });
             })
             .catch(function(error){
                 reject("error");

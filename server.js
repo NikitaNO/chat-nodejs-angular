@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
         const { userId, username } = data;
 
         if (userId) {
-          userCtrl.findOne(userId)
+          userCtrl.findOneAndConnect(userId, socket.id)
             .then(loginUser => {
               usersCollection.forEach(function(one, i, all) {
                 if (one.displayName == loginUser.displayName) {
@@ -170,7 +170,7 @@ io.on('connection', (socket) => {
           msgCtrl.getUserMsg(message)
           .then((chats) => {
               io.to(users[0][0].socketId).emit("messageReceived", chats);
-            // io.to(users[1][0].socketId).emit("messageReceived", chats);
+            io.to(users[1][0].socketId).emit("messageReceived", chats);
           })
       });
   });
